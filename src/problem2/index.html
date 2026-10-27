@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Preview an estimated currency swap with Orbit."
+    />
+    <meta name="theme-color" content="#f4f6fb" />
+    <title>Swap currencies — Orbit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/style.css" rel="stylesheet" />
+    <script type="module" src="/script.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <main>
+        <section class="intro" id="how-it-works">
+          <h1>Make your money<br /><span>move.</span></h1>
+          <p>Swap currencies in a few simple steps.</p>
+        </section>
+
+        <section class="swap-card" id="swap" aria-labelledby="swap-title">
+          <div class="card-heading">
+            <div>
+              <div class="card-kicker">EXCHANGE</div>
+              <h2 id="swap-title">Swap assets</h2>
+            </div>
+            <button
+              class="icon-button settings-button"
+              id="settings-button"
+              type="button"
+              aria-label="Toggle slippage settings"
+              aria-expanded="false"
+              aria-controls="slippage-settings"
+              title="Slippage settings"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"
+                />
+                <path
+                  d="m19.4 15 .06.04a1.7 1.7 0 0 1-2.4 2.4l-.04-.06a1.7 1.7 0 0 0-2.9 1.2v.16a1.7 1.7 0 0 1-3.4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.04.06a1.7 1.7 0 1 1-2.4-2.4l.06-.04a1.7 1.7 0 0 0-1.2-2.9h-.16a1.7 1.7 0 0 1 0-3.4h.1a1.7 1.7 0 0 0 1.2-2.9l-.06-.04a1.7 1.7 0 1 1 2.4-2.4l.04.06a1.7 1.7 0 0 0 2.9-1.2v-.16a1.7 1.7 0 0 1 3.4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.04-.06a1.7 1.7 0 1 1 2.4 2.4l-.06.04a1.7 1.7 0 0 0 1.2 2.9h.16a1.7 1.7 0 0 1 0 3.4h-.1a1.7 1.7 0 0 0-1.2 2.9Z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="settings-panel" id="slippage-settings" hidden>
+            <div>
+              <span class="settings-title">Slippage tolerance</span>
+              <span class="settings-hint">Your minimum acceptable rate</span>
+            </div>
+            <div class="slippage-options" role="group" aria-label="Slippage tolerance">
+              <button class="slippage-option" type="button" data-slippage="0.1">0.1%</button>
+              <button class="slippage-option selected" type="button" data-slippage="0.5">0.5%</button>
+              <button class="slippage-option" type="button" data-slippage="1">1.0%</button>
+            </div>
+          </div>
+
+          <form id="swap-form" novalidate>
+            <div class="amount-panel">
+              <div class="panel-label-row">
+                <label for="input-amount">You pay</label>
+                <span class="panel-caption">Pay with</span>
+              </div>
+              <div class="amount-controls">
+                <input
+                  id="input-amount"
+                  name="amount"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="any"
+                  placeholder="0.00"
+                  autocomplete="off"
+                  aria-describedby="amount-error"
+                />
+                <div class="token-picker">
+                  <img class="token-icon" id="input-icon" alt="" />
+                  <select id="input-currency" name="from" aria-label="Currency to pay" disabled></select>
+                  <svg class="select-chevron" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="m4 6 4 4 4-4" />
+                  </svg>
+                </div>
+              </div>
+              <div class="panel-foot">
+                <span class="fiat-value" id="input-fiat">≈ $0.00</span>
+                <span class="balance-label">Reference price</span>
+              </div>
+              <p class="field-error" id="amount-error" aria-live="polite"></p>
+            </div>
+
+            <div class="swap-direction">
+              <span class="direction-line"></span>
+              <button
+                class="icon-button direction-button"
+                id="reverse-button"
+                type="button"
+                aria-label="Switch currencies"
+                title="Switch currencies"
+                disabled
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 7h12m0 0-3-3m3 3-3 3M17 17H5m0 0 3-3m-3 3 3 3" />
+                </svg>
+              </button>
+              <span class="direction-line"></span>
+            </div>
+
+            <div class="amount-panel receive-panel">
+              <div class="panel-label-row">
+                <label for="output-amount">You receive</label>
+                <span class="panel-caption">Estimated amount</span>
+              </div>
+              <div class="amount-controls">
+                <input
+                  id="output-amount"
+                  name="receive"
+                  type="text"
+                  placeholder="0.00"
+                  readonly
+                  aria-label="Estimated amount to receive"
+                />
+                <div class="token-picker">
+                  <img class="token-icon" id="output-icon" alt="" />
+                  <select id="output-currency" name="to" aria-label="Currency to receive" disabled></select>
+                  <svg class="select-chevron" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="m4 6 4 4 4-4" />
+                  </svg>
+                </div>
+              </div>
+              <div class="panel-foot">
+                <span class="fiat-value" id="output-fiat">≈ $0.00</span>
+                <span class="balance-label">After 0.3% fee</span>
+              </div>
+            </div>
+
+            <div class="quote-details" aria-live="polite">
+              <div class="quote-row">
+                <span>Exchange rate</span>
+                <span id="exchange-rate">Loading rates…</span>
+              </div>
+              <div class="quote-row">
+                <span>Swap fee <span class="info-dot" title="Applied to the estimated amount you receive">i</span></span>
+                <span id="swap-fee">0.3%</span>
+              </div>
+              <div class="quote-row">
+                <span>Minimum received</span>
+                <span id="minimum-received">—</span>
+              </div>
+            </div>
+
+            <button class="submit-button" id="submit-button" type="submit" disabled>
+              <span>Review swap</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 10h12m0 0-4-4m4 4-4 4" />
+              </svg>
+            </button>
+            <p class="form-notice" id="form-notice" role="status" aria-live="polite">
+              Loading reference prices…
+            </p>
+          </form>
+        </section>
+
+        <div class="trust-note">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 2.5 3.5 5v4.7c0 3.9 2.8 6.8 6.5 7.8 3.7-1 6.5-3.9 6.5-7.8V5L10 2.5Z" />
+            <path d="m7.3 10 1.8 1.8 3.8-3.9" />
+          </svg>
+          <span>Review your quote before you swap. No surprises.</span>
+        </div>
+        <footer>Rates are estimates from a reference price feed and may not reflect executable market prices.</footer>
+      </main>
+    </div>
+  </body>
+</html>
